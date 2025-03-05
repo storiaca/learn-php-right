@@ -11,3 +11,9 @@ http://localhost/learn-php-right/
 ## github link
 
 https://github.com/ggelashvili/learnphptherightway-outline
+
+## PHP Sandboxes
+
+https://php-play.dev/?c=DwfgDgFmBQD0sAICmAPAhgWzAGyQgxgPYAmS0kYAlgHYBmhAFAJQDcQA&v=8.4&f=html
+
+https://onlinephp.io/
