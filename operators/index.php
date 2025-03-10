@@ -114,7 +114,7 @@ echo $canBuyAlcohol; // No
 echo "<br>";
 
 // ?? null coalescing operator
-// opertor koji vraca prvi operand ako nije null, inace vraca drugi operand
+// operator koji vraca prvi operand ako nije null, inace vraca drugi operand
 // koristi se za proveru da li je vrednost null ili undefined, ili ako imamo undefined keys u nizu
 // https://www.php.net/manual/en/language.operators.comparison.php#language.operators.comparison.coalesce
 $p = null;
@@ -123,3 +123,172 @@ echo $b; // default
 echo "<br>";
 
 // ako je prvi operand null, vraca drugi operand
+
+// Error Control Operators (@)
+// u ovom slucaju fajl foo.txt ne postoji, ako zelimo da zataskamo ovu gresku mozemo da koristimo ovaj @ operator, ne preporucuje se da se koristi osim bas ako treba
+$f = @file('foo.txt');
+
+// Increment / Decrement Operators (++, --)
+// rade samo sa brojevima i stringovima, sa strigovima samo ++
+$in = 7;
+
+$in++; // 7
+$in--; // 8
+++$in; // 8
+--$in; // 7
+echo $in; // 7
+echo "<br/>";
+
+// Logical Operators (&& || ! and or xor)
+$xc = true;
+$yc = false;
+
+var_dump($xc && $yc); // bool(false)
+echo "<br/>";
+
+$xo = 0;
+$yo = true;
+var_dump($xo || $yo); // bool(true)
+echo "<br/>";
+
+// za and primer, php koristi code precedence (prvensto) koji znak ima veci prioritet za izvsavanje
+$xa = true;
+$ya = false;
+
+$za = $xa && $ya;
+var_dump($za); //  bool(false)
+echo "<br/>";
+// medjutim ako koristimo and onda cemo da dobijemo true
+$zd = $xa and $ya;
+var_dump($zd); //  bool(true), zato sto znak = ima veci prioritet od and operatora i kada vidi $zd = $xa sto je true, nece dalje da gleda posle njega i zato je true
+echo "<br/>";
+
+// php ima nesto sto se zove short circuting kada su u pitanju logicki operatori
+$xs = true;
+$ys = false;
+
+var_dump($xs || $ys); // bool(true)
+echo "<br/>";
+// u ovom primeru nece ni doci do $ys zato sto je prva variabla true, to se najbolje vidi ako je druga variabla za poredjenje neka funckija, koja se u ovom slucaju ako je pozovemo, nece nikad izvrsiti
+function hello()
+{
+  echo 'Hello World';
+
+  return false;
+}
+var_dump($xs || hello()); // bool(true)
+echo "<br/>";
+
+// ako stavimo && onda ce se i hello() izvrsiti, zato sto za && uzimamo oba operatora u obzir
+var_dump($xs && hello()); // Hello Worldbool(false)
+echo "<br/>";
+
+// ako imamo ovakav primer, dobicemo true, zbog presence and associativity, ali funckija se nece opet izvsiti zato sto ce ceo izraz da bude false, && ima veci prioriter od || operatora, zato se funkcija hello() grupise sa $xf variablom
+$xf = false;
+var_dump($xf && hello() || true); // bool(true)
+echo "<br/>";
+
+// Bitwise Operators (& | ^ ~ << >>)
+$xb = 6;
+$yb = 3;
+// 110 - 6 binarno
+// &
+// 011 - 3 binarno
+// ----
+// 010 = 2, zato je rezultat 2
+
+var_dump($xb & $yb); // int(2)
+echo "<br/>";
+
+// primer za or (|)
+$ub = 6;
+$kb = 3;
+// 110 - 6 binarno
+// |
+// 011 - 3 binarno
+// ----
+// 111 = 7, zato je rezultat 7
+var_dump($ub | $kb); // int(7)
+echo "<br/>";
+
+// primer za xor (^)
+$ub = 6;
+$kb = 3;
+// 110 - 6 binarno
+// ^
+// 011 - 3 binarno
+// ----
+// 101 = 5, zato je rezultat 5
+var_dump($ub ^ $kb); // int(5)
+echo "<br/>";
+
+// primer za negation operator (~), obrce bitove od broja 1 u 0 ili 0 u 1
+$ub = 6;
+$kb = 3;
+// 110 
+// ~
+// 001
+// &
+// 011 
+// ----
+// 001 = 1, zato je rezultat 1
+var_dump(~$ub & $kb); // int(1)
+echo "<br/>";
+
+// << >> pomeraju bitove u levo i desno, kada se pomera i levo mnozi se sa 2, kada se pomera u desno deli se sa 2
+$xl = 6;
+$yl = 3;
+
+// 110 
+// <<<
+// 110000 = 48
+
+var_dump($xl << $yl); // rezultat je 48
+echo "<br/>";
+
+// ako koristimo znak >>> onda cemo da delimo sa 2
+$xr = 6;
+$yr = 3;
+
+// 110 
+// >>>
+// 0
+
+var_dump($xr >> $yr); // rezultat je 0
+echo "<br/>";
+
+// ako koristimo znak >>> onda cemo da delimo sa 2
+$xrr = 6;
+$yrr = 1;
+
+// 110 
+// >>
+// 11
+
+var_dump($xrr >> $yrr); // rezultat je 3
+echo "<br/>";
+
+// kada se ovo radi, oba operatora se konvertuju u integer, ukoliko nisu stringovi, onda ce da se koriste njihove ascii vredosti
+
+// Array operators (+ == === != <> !==)
+$xar = ['a', 'b', 'c'];
+$yar = ['d', 'e', 'f'];
+
+$zar = $xar + $yar; // ovo je unija za nizove, operator +, koristice iste elemente koje ima na istim kljucevima, tako da je rezultat zano vrednost iz $xar
+
+var_dump($zar); // array(3) { [0]=> string(1) "a" [1]=> string(1) "b" [2]=> string(1) "c" 
+echo "<br/>";
+
+// ako dodamo nesto u $yar, onda ce ti novi elementi biti dodati u $zar niz
+
+// ako promenimo da ovo bude asicijatican niz, onda se kljucevi nece poklapati i sve ce da se spoji:
+$xarn = ['a' => 1, 'b' => 2, 'c' => 3];
+$yarn = ['d' => 4, 'e' => 5, 'f' => 6, 'g' => 7, 'h' => 8];
+
+$zarn = $xarn + $yarn;
+
+print_r($zarn); // Array ( [a] => 1 [b] => 2 [c] => 3 [d] => 4 [e] => 5 [f] => 6 [g] => 7 [h] => 8 )
+echo "<br/>";
+
+// operator poredjenja == gleda da li dva niza imaju isti key => value parove, ako imaju bice true, sve mora da bude isto
+// operator === ce da proveri i tip vrednosti
