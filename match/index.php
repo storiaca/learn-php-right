@@ -23,6 +23,7 @@ $returnValue = match ($paymentStatus) {
 };
 
 var_dump($returnValue);
+echo "<br>";
 
 $age = 18;
 
