@@ -42,6 +42,7 @@ print_r($array2);
 echo '<br/>';
 
 // arrow functions
+// ne moze da bude vise redova u arrow funkciji, samo jedan red izvrsavanja
 $arr = [1, 2, 3, 4];
 $arr2 = array_map(fn($number) => $number * $number, $arr);
 
